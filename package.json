@@ -2,7 +2,7 @@
   "name": "color-robin",
   "version": "1.0.0",
   "description": "Image colors extraction library (for browsers only)",
-  "main": "src/color-robin.js",
+  "browser": "dist/color-robin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +14,7 @@
   ],
   "author": "ptrgast",
   "license": "MIT",
+  "repository": "github:ptrgast/color-robin",
   "devDependencies": {
     "browserify": "^16.2.2",
     "gulp": "^3.9.1",
