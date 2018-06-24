@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Example | color-robin</title>
+        <script src="color-robin.js"></script>
+        <style>
+            h1 {font-size: 2em;}
+            h2 {font-size: 1.5em;}
+
+            body {
+                padding: 5%;
+                background-color: #fafafa;
+                text-align: center;
+                font-family: Sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <script>
+            var colorRobin = new ColorRobin.Analyzer();
+            // document.body.appendChild(colorRobin._canvas);
+
+            function onImageLoaded(index) {
+                var inputImage = document.getElementById("input-"+index);
+                var colors = colorRobin.analyze(inputImage, 150);
+                showColors(inputImage.parentElement, colors);
+            }
+
+            function showColors(target, colors) {
+                for (var i = 0; i < colors.length; i++) {
+                    var container = document.createElement('div');
+                    container.style.width = "30px";
+                    container.style.height = "30px";
+                    container.style.display = "inline-block";
+                    container.style.backgroundColor = ColorRobin.toRgbString(colors[i].color);
+                    target.appendChild(container);
+                }
+            }
+        </script>
+
+        <h1>color-robin</h1>
+
+        <div>
+            <h2>Examples</h2>
+            <div><img id="input-1" src="input-1.jpg" onload="onImageLoaded(1)" style="width:50%;"><br></div>
+            <div><img id="input-2" src="input-2.jpg" onload="onImageLoaded(2)" style="width:50%;"><br></div>
+        </div>
+
+        <hr>
+
+        <div>
+            <h2>Performance test</h2>
+            <p>* Greater tolerance means extracting less color groups</p>
+            <button onclick="testPerformance()">Start</button>
+            <div id="test-results"></div>
+            <script>
+                var resultsElem = document.getElementById("test-results");
+
+                function testPerformance() {
+                    resultsElem.innerHTML = "";
+                    appendToResults("Started...");
+
+                    var inputImage = document.getElementById("input-1");
+
+                    var totalTime = 0;
+
+                    totalTime += testResolution(inputImage, 20, 500);
+                    totalTime += testResolution(inputImage, 50, 500);
+
+                    appendToResults("Total time: "+(totalTime|0)+"ms");
+                }
+
+                function testResolution(image, resolution, iterationsPerTest) {
+                    var totalTime = 0;
+
+                    totalTime += testAnalysis(image, iterationsPerTest, 200, resolution);
+                    totalTime += testAnalysis(image, iterationsPerTest, 100, resolution);
+                    totalTime += testAnalysis(image, iterationsPerTest, 50, resolution);
+
+                    var avgImageTime = ((totalTime / iterationsPerTest * 3) * 100 | 0) / 100;
+                    appendToResults("Average time per image: " + avgImageTime + "ms");                    
+
+                    return totalTime;
+                }
+
+                function testAnalysis(image, iterations, tolerance, resolution) {
+                    var startTime = window.performance.now();
+
+                    colorRobin.setResolution(resolution);
+                    for (var i = 0; i < iterations; i++) {
+                        colors = colorRobin.analyze(image, tolerance);
+
+                    }
+                    var totalTime = ((window.performance.now() - startTime) * 100 | 0) / 100;
+                    appendToResults("Analyzed " +iterations+" images (tolerance "+tolerance+", resolution "+resolution+"x"+resolution+") in "+ totalTime + "ms");
+
+                    return totalTime;
+                }
+
+                function appendToResults(text) {
+                    var elem = document.createElement("p");
+                    elem.innerHTML = text;
+                    resultsElem.appendChild(elem);
+                }
+            </script>
+        </div>
+
+    </body>
+</html>
