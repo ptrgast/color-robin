@@ -1,10 +1,10 @@
-module.exports = function () {
+export function Map() {
 
     this._keys = [];
     this._values = [];
 
     this.set = function (key, value) {
-        var index = this._keyIndex(key);
+        let index = this._keyIndex(key);
         if (index >= 0) {
             // found
             this._values[index] = value;
@@ -16,7 +16,7 @@ module.exports = function () {
     }
 
     this.get = function (key) {
-        var index = this._keyIndex(key);
+        let index = this._keyIndex(key);
         if (index >= 0) {
             // found
             return this._values[index];
@@ -32,7 +32,7 @@ module.exports = function () {
     }
 
     this._keyIndex = function (key) {
-        for (var i = 0; i < this._keys.length; i++) {
+        for (let i = 0; i < this._keys.length; i++) {
             if (this._keys[i] == key) {
                 return i;
             }

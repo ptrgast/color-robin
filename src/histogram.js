@@ -1,18 +1,18 @@
-var Map = require("./map");
+import { Map } from "./map";
 
-module.exports = function () {
+export function Histogram() {
 
     this._tolerance = 100;
     
     this.create = function (pixels) 
     {
-        var map = new Map();
+        let map = new Map();
 
-        for (var i = 0; i < pixels.length; i++) {
-            var pixel = pixels[i];
+        for (let i = 0; i < pixels.length; i++) {
+            let pixel = pixels[i];
     
-            var groupName = this._combineRGB(pixel, this._tolerance);
-            var group = map.get(groupName);
+            let groupName = this._combineRGB(pixel, this._tolerance);
+            let group = map.get(groupName);
             if (group != null) {
                 group.total++;
                 group.data.push(pixel);
@@ -23,7 +23,7 @@ module.exports = function () {
         }
 
         // Sort the result
-        var values = map.getValues();
+        let values = map.getValues();
         values.sort(this._sortMapByOccurences);
 
         return values;
@@ -40,10 +40,10 @@ module.exports = function () {
 
     this._combineRGB = function (pixel, groupFactor) 
     {
-        var r = (pixel[0] / groupFactor | 0) * groupFactor;
-        var g = (pixel[1] / groupFactor | 0) * groupFactor;
-        var b = (pixel[2] / groupFactor | 0) * groupFactor;
-        var combined = (((r << 8) + g) << 8) + b;
+        let r = (pixel[0] / groupFactor | 0) * groupFactor;
+        let g = (pixel[1] / groupFactor | 0) * groupFactor;
+        let b = (pixel[2] / groupFactor | 0) * groupFactor;
+        let combined = (((r << 8) + g) << 8) + b;
         return combined;
     }
 

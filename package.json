@@ -1,10 +1,12 @@
 {
   "name": "color-robin",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Image colors extraction library (for browsers only)",
-  "browser": "dist/color-robin.js",
+  "main": "dist/color-robin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "serve": "webpack serve --open --config webpack.dev.js"
   },
   "keywords": [
     "color",
@@ -16,12 +18,9 @@
   "license": "MIT",
   "repository": "github:ptrgast/color-robin",
   "devDependencies": {
-    "browserify": "^16.2.2",
-    "gulp": "^3.9.1",
-    "gulp-rename": "^1.3.0",
-    "gulp-uglify": "^3.0.0",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "express": "^4.16.3"
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.0.0",
+    "webpack-merge": "^5.8.0"
   }
 }

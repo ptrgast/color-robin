@@ -1,13 +1,17 @@
-var ColorRobin = {}; 
+import { Analyzer } from "./analyzer.js"
 
-ColorRobin.Analyzer = require("./analyzer");
+let ColorRobin = {
 
-ColorRobin.toRgbString = function (rgbArray)
-{
-    return "rgb("+
-        rgbArray[0]+","+
-        rgbArray[1]+","+
-        rgbArray[2]+")";
-}
+    Analyzer,
 
-window.ColorRobin = ColorRobin;
+    toRgbString: function(rgbArray)
+    {
+        return "rgb("+
+            rgbArray[0]+","+
+            rgbArray[1]+","+
+            rgbArray[2]+")";
+    }
+        
+};
+
+export default ColorRobin;
