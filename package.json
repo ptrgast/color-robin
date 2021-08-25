@@ -1,6 +1,6 @@
 {
   "name": "color-robin",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Image colors extraction library (for browsers only)",
   "main": "dist/color-robin.js",
   "scripts": {
