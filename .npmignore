@@ -1,3 +1,6 @@
-dist/index.html
-dist/sample-1.jpg
-dist/sample-2.jpg
+index.html
+public/sample-1.jpg
+public/sample-2.jpg
+src/showcase/*
+src/main.ts
+src/style.css
