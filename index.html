@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>color-robin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>color-robin</h1>
+    <p>A JavaScript library for extracting the colors from an image.</p>
+
+    <section>
+        <h2>Showcase</h2>
+        <div id="examples">
+        </div>
+    </section>
+
+    <section>
+        <h2>Code example</h2>
+
+        HTML
+    <pre><code class="language-html">
+    &lt;div&gt;
+        &lt;img src="image.jpg" id="image" /&gt;
+    &lt;/div&gt;
+    </code></pre>
+        
+        <br>
+        JavaScript
+    <pre><code class="language-js">
+    import { analyzeImage } from 'color-robin';
+
+    const image = document.getElementById('image');
+    
+    analyzeImage(image).then(histogram => {
+        console.log(histogram.getColors(5));
+    });
+    </code></pre>
+    </section>
+
+    <div class="fork-me">
+        <a href="https://github.com/ptrgast/color-robin"><img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    </div>
+
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+  </body>
+</html>
