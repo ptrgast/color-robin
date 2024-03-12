@@ -1,26 +1,25 @@
 {
   "name": "color-robin",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Image colors extraction library (for browsers only)",
-  "main": "dist/color-robin.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "serve": "webpack serve --open --config webpack.dev.js"
-  },
+  "type": "module",
+  "main": "src/index.ts",
+  "author": "ptrgast",
+  "license": "MIT",
+  "repository": "github:ptrgast/color-robin",
   "keywords": [
     "color",
     "extraction",
     "image",
     "browser"
   ],
-  "author": "ptrgast",
-  "license": "MIT",
-  "repository": "github:ptrgast/color-robin",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.0.0",
-    "webpack-merge": "^5.8.0"
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
   }
 }
