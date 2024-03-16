@@ -1,89 +1,99 @@
-# What is color-robin?
+# Welcome to color-robin
 
-It is a small library meant **for the browser** that uses `<canvas>` to extract the most used colors in an image.
+Color-robin is a small library for extracting the colors from an image. 
+It is based on the canvas element and it requires the browser environment.
 
-<a href="https://projects.ptrgast.com/color-robin/">Live Example</a>
+## 🚀 Getting started
 
-# Installation
+### Installation
 
 ```
 npm install color-robin
 ```
 
-# Usage
+### Usage example
 
-First of all you must load the library in your page.
+HTML
 
 ```html
-<script src="path/to/color-robin.js"></script>
+<div>
+    <img id="image1" src="image1.jpg" alt="..." />
+</div>
 ```
-or
+JavaScript
 
 ```javascript
-import ColorRobin from "color-robin";
-```
+import { analyzeImage } from "color-robin";
 
-Then you can call `analyze()` to analyze images.
+const image1 = document.getElementById("image1");
 
-```javascript
-// Create an instance of the analyzer
-var analyzer = new ColorRobin.Analyzer();
+analyzeImage(image1).then(histogram => {
+    // Get the top 3 colors
+    const colors = histogram.getColors(3);
 
-// Get an image (must be already loaded)
-var image = ...;
-
-// Analyze the image and print the results
-var colors = analyzer.analyze(image);
-console.log(colors);
-```
-
-Output example:
-
-```json
-[
-    {
-        "occurrences": 189,
-        "color": [88, 84, 68]
-    },
-    {
-        "occurrences": 148,
-        "color": [192, 203, 214]
-    },
-    {
-        "occurrences": 43,
-        "color": [140, 159, 179]
-    },
-    {
-        "occurrences": 20,
-        "color": [121, 141, 157]
+    // Print colors in rgb() form
+    for (const color of colors) {
+        console.log(color.toRGB());
     }
-]
+});
 ```
 
-For performance reasons the analyzer scans a resized version of the image. The default size of the image that will be scanned is 20x20 pixels but this can be changed by calling the `setResolution()` function of the analyzer before an analysis. For example:
+## ❔ How it works
 
-```javascript
-analyzer.setResolution(50); // This means that the scanned image will be 50x50
-```
-The derived images used for the analysis have always a 1:1 ratio. (Keeping the original aspect ratio of the input images could be a nice future improvement...)
+### Thumbnail
+The first step of the process is to create a low resolution version of the image in order to speed up the analysis. The default resolution of the resized image is 20x20 pixels but this can be configured accordingly.
 
-The analyzer produces the final results by grouping together similar colors and counting the occurences of each color group. The total groups produced by the analyzer depend on the color variations of the input image, the analysis resolution as long as the color similarity `tolerance` used by the algorithm. Greater tolerance value means that more colors will fall under the same color group thus reducing the produced color groups.
+Note: The resized image has always a 1:1 ratio. Keeping the original aspect ratio of the input images could be a nice future improvement.
 
-To change the tolerance you can pass the required value in the `analyze()` function. For example:
+### Histogram
 
-```javascript
-let tolerance = 200;
-let colors = analyzer.analyze(image, tolerance);
-```
+The next step after generating the thumbnail is the generation of the colors' histogram. The color space is divided into a number of buckets where each bucket represent a group of similar colors. Then the thumbnail is scanned and each pixel color is thrown into one of the buckets. The amount of colors in each bucket represent the usage of the specific color in the image.
 
-If you plan to use the resulting colors to style elements then there is a convenient function that converts the color arrays to "rgb(r,g,b)" strings. For example:
+## 📑 Reference
 
-```javascript
-ColorRobin.toRgbString([255,255,0]);
-```
+### Function analyzeImage(image, resolution, maxClasses)
 
-will return:
+This is the main function of the library. A wrapper of the whole process that given an image element it will:
+- wait for the image to load, 
+- generate a `Thumbnail` of the image, 
+- generate a `Histogram` of the thumbnail
+- and then return the histogram through a `Promise`.
 
-```javascript
-"rgb(255,255,0)"
-```
+| Argument | Type | Description |
+|----------|------|-------------|
+| image | HTMLImageElement | The image element to analyze. |
+| resolution | number (default 20) | The resolution of the `Thumbnail` that will be created. This means that for the default value the thumbnail will be 20x20 pixels. |
+| maxClasses | number (default 2) | This number represent the divisions of each color channel for creating the color buckets. The higher the number, the more buckets will be created but the result will be less diverse |
+
+### Method Histogram.getColors(max)
+
+This function returns a `ColorArray` which is an iterable object holding a collection of `Color` objects. The collection is ordered and the first color returned is the most frequent inside the image while the last one is the less frequent.
+
+**Arguments**
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| max (optional) | number | Can be used to limit the amount of colors that will be returned, always starting from the most frequent color. |
+
+**Returns**
+| Type | Description |
+|------|-------------|
+| ColorArray | An iterable collection of `Color` objects ordered from the most frequent colors to the less ones. |
+
+### Class Color
+
+A class representing a color.
+
+**Methods**
+
+| Method | Description |
+|--------|-------------|
+| toRGB() | Return the color in rgb() form e.g. `rgb(255,0,0)` |
+| getLightness() | Returns the lightness of the color (0 to 1). |
+| isLight() | Return `true` if the color has more than 50% lightness. |
+| isDark() | The opossite of `isLight()`. |
+| isLighterThan(Color) | Returns `true` if the current color is lighter than the given one. |
+| isDarkerThan(Color) | Returns `true` if the current color is darker than the given one. |
+| compareLightness(Color) | A lightness comparison method that can be used for sorting colors. |
+
+
