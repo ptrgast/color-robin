@@ -6,7 +6,10 @@
   "main": "src/index.ts",
   "author": "ptrgast",
   "license": "MIT",
-  "repository": "github:ptrgast/color-robin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ptrgast/color-robin.git"
+  },
   "keywords": [
     "color",
     "extraction",
